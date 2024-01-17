@@ -83,16 +83,7 @@ func (bs *BookController) UpdateBook(e echo.Context) error {
 		Author:      reqBook.Author,
 		Publication: reqBook.Publication,
 	}
-	if updatedBook.BookName == "" {
-		updatedBook.BookName = existingBook[0].BookName
-	}
-	if updatedBook.Author == "" {
-		updatedBook.Author = existingBook[0].Author
-	}
-	if updatedBook.Publication == "" {
-		updatedBook.Publication = existingBook[0].Publication
-	}
-	if err := bs.bookSvc.UpdateBook(updatedBook); err != nil {
+	if err := bs.bookSvc.UpdateBook(existingBook[0], updatedBook); err != nil {
 		return e.JSON(http.StatusInternalServerError, err.Error())
 	}
 	return e.JSON(http.StatusCreated, "BookDetail was updated successfully")

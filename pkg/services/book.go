@@ -43,7 +43,16 @@ func (service *bookService) CreateBook(book *models.BookDetail) error {
 	return nil
 }
 
-func (service *bookService) UpdateBook(book *models.BookDetail) error {
+func (service *bookService) UpdateBook(bookRequest types.BookRequest, book *models.BookDetail) error {
+	if book.BookName == "" {
+		book.BookName = bookRequest.BookName
+	}
+	if book.Author == "" {
+		book.Author = bookRequest.Author
+	}
+	if book.Publication == "" {
+		book.Publication = bookRequest.Publication
+	}
 	if err := service.repo.UpdateBook(book); err != nil {
 		return errors.New("BookDetail update was unsuccessful")
 	}

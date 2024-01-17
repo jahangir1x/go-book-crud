@@ -17,6 +17,6 @@ type IBookRepo interface {
 type IBookService interface {
 	GetBooks(bookID uint) ([]types.BookRequest, error)
 	CreateBook(book *models.BookDetail) error
-	UpdateBook(book *models.BookDetail) error
+	UpdateBook(bookRequest types.BookRequest, book *models.BookDetail) error
 	DeleteBook(bookID uint) error
 }
