@@ -32,7 +32,8 @@ func (bc *bookRoutes) initBookRoutes(e *echo.Echo) {
 
 	//initializing http methods - routing endpoints and their handlers
 	book.POST("/books", bc.bookCtr.CreateBook)
-	book.GET("/books", bc.bookCtr.GetBook)
+	book.GET("/books", bc.bookCtr.GetAllBooks)
+	book.GET("/books/:bookID", bc.bookCtr.GetBook)
 	book.PUT("/books/:bookID", bc.bookCtr.UpdateBook)
 	book.DELETE("/books/:bookID", bc.bookCtr.DeleteBook)
 }

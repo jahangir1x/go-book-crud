@@ -37,7 +37,7 @@ func (bs *BookController) CreateBook(e echo.Context) error {
 	}
 	book := &models.BookDetail{
 		BookName:    reqBook.BookName,
-		Author:      reqBook.Author,
+		AuthorID:    reqBook.AuthorID,
 		Publication: reqBook.Publication,
 	}
 
@@ -47,43 +47,45 @@ func (bs *BookController) CreateBook(e echo.Context) error {
 	return e.JSON(http.StatusCreated, "BookDetail was created successfully")
 }
 func (bs *BookController) GetBook(e echo.Context) error {
-	tempBookID := e.QueryParam("bookID")
+	tempBookID := e.Param("bookID")
 	bookID, err := strconv.ParseInt(tempBookID, 0, 0)
 	if err != nil && tempBookID != "" {
 		return e.JSON(http.StatusBadRequest, "Enter a valid book ID")
 	}
-	book, err := bs.bookSvc.GetBooks(uint(bookID))
+	book, err := bs.bookSvc.GetBook(uint(bookID))
 	if err != nil {
 		return e.JSON(http.StatusBadRequest, err.Error())
 	}
 	return e.JSON(http.StatusOK, book)
 }
-
+func (bs *BookController) GetAllBooks(e echo.Context) error {
+	books, err := bs.bookSvc.GetAllBooks()
+	if err != nil {
+		return e.JSON(http.StatusBadRequest, err.Error())
+	}
+	return e.JSON(http.StatusOK, books)
+}
 func (bs *BookController) UpdateBook(e echo.Context) error {
 	reqBook := &types.BookRequest{}
 	if err := e.Bind(reqBook); err != nil {
 		return e.JSON(http.StatusBadRequest, "Invalid Data")
-	}
-	if err := reqBook.Validate(); err != nil {
-		return e.JSON(http.StatusBadRequest, err.Error())
 	}
 	tempBookID := e.Param("bookID")
 	bookID, err := strconv.ParseInt(tempBookID, 0, 0)
 	if err != nil {
 		return e.JSON(http.StatusBadRequest, "Enter a valid book ID")
 	}
-	existingBook, err := bs.bookSvc.GetBooks(uint(bookID))
+	existingBook, err := bs.bookSvc.GetBook(uint(bookID))
 	if err != nil {
 		return e.JSON(http.StatusBadRequest, err.Error())
 	}
-
 	updatedBook := &models.BookDetail{
 		ID:          uint(bookID),
 		BookName:    reqBook.BookName,
-		Author:      reqBook.Author,
+		AuthorID:    reqBook.AuthorID,
 		Publication: reqBook.Publication,
 	}
-	if err := bs.bookSvc.UpdateBook(existingBook[0], updatedBook); err != nil {
+	if err := bs.bookSvc.UpdateBook(existingBook, updatedBook); err != nil {
 		return e.JSON(http.StatusInternalServerError, err.Error())
 	}
 	return e.JSON(http.StatusCreated, "BookDetail was updated successfully")
@@ -95,7 +97,7 @@ func (bs *BookController) DeleteBook(e echo.Context) error {
 	if err != nil {
 		return e.JSON(http.StatusBadRequest, "Invalid Data")
 	}
-	_, err = bs.bookSvc.GetBooks(uint(bookID))
+	_, err = bs.bookSvc.GetBook(uint(bookID))
 	if err != nil {
 		return e.JSON(http.StatusBadRequest, err.Error())
 	}

@@ -6,7 +6,7 @@ import validation "github.com/go-ozzo/ozzo-validation"
 type BookRequest struct {
 	ID          uint   `json:"bookID"`
 	BookName    string `json:"bookName"`
-	Author      string `json:"author"`
+	AuthorID    uint   `json:"authorID"`
 	Publication string `json:"publication,omitempty"`
 }
 
@@ -15,7 +15,6 @@ func (book BookRequest) Validate() error {
 		validation.Field(&book.BookName,
 			validation.Required.Error("Book name cannot be empty"),
 			validation.Length(1, 50)),
-		validation.Field(&book.Author,
-			validation.Required.Error("Author name cannot be empty"),
-			validation.Length(1, 50)))
+		validation.Field(&book.AuthorID,
+			validation.Required.Error("Author ID cannot be empty")))
 }

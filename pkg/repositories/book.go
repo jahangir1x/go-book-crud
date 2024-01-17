@@ -19,19 +19,20 @@ func BookDBInstance(d *gorm.DB) domain.IBookRepo {
 }
 
 // all methods of interface are implemented
-func (repo *bookRepo) GetBooks(bookID uint) []models.BookDetail {
+func (repo *bookRepo) GetAllBooks() []models.BookDetail {
 	var book []models.BookDetail
-	var err error
-
-	if bookID != 0 {
-		err = repo.db.Where("id = ?", bookID).Find(&book).Error
-	} else {
-		err = repo.db.Find(&book).Error
-	}
+	err := repo.db.Find(&book).Error
 	if err != nil {
 		return []models.BookDetail{}
 	}
 	return book
+}
+func (repo *bookRepo) GetBook(bookID uint) (models.BookDetail, error) {
+	var book models.BookDetail
+	if err := repo.db.Where("id = ?", bookID).First(&book).Error; err != nil {
+		return book, err
+	}
+	return book, nil
 }
 func (repo *bookRepo) CreateBook(book *models.BookDetail) error {
 	if err := repo.db.Create(book).Error; err != nil {

@@ -20,9 +20,9 @@ func BookServiceInstance(bookRepo domain.IBookRepo) domain.IBookService {
 }
 
 // all methods of interface are implemented
-func (service *bookService) GetBooks(bookID uint) ([]types.BookRequest, error) {
+func (service *bookService) GetAllBooks() ([]types.BookRequest, error) {
 	var allBooks []types.BookRequest
-	book := service.repo.GetBooks(bookID)
+	book := service.repo.GetAllBooks()
 	if len(book) == 0 {
 		return nil, errors.New("No book found")
 	}
@@ -30,11 +30,24 @@ func (service *bookService) GetBooks(bookID uint) ([]types.BookRequest, error) {
 		allBooks = append(allBooks, types.BookRequest{
 			ID:          val.ID,
 			BookName:    val.BookName,
-			Author:      val.Author,
+			AuthorID:    val.AuthorID,
 			Publication: val.Publication,
 		})
 	}
 	return allBooks, nil
+}
+func (service *bookService) GetBook(bookID uint) (types.BookRequest, error) {
+	bookDetail, err := service.repo.GetBook(bookID)
+	book := types.BookRequest{
+		ID:          bookDetail.ID,
+		BookName:    bookDetail.BookName,
+		AuthorID:    bookDetail.AuthorID,
+		Publication: bookDetail.Publication,
+	}
+	if err != nil {
+		return book, errors.New("No book found")
+	}
+	return book, nil
 }
 func (service *bookService) CreateBook(book *models.BookDetail) error {
 	if err := service.repo.CreateBook(book); err != nil {
@@ -47,8 +60,8 @@ func (service *bookService) UpdateBook(bookRequest types.BookRequest, book *mode
 	if book.BookName == "" {
 		book.BookName = bookRequest.BookName
 	}
-	if book.Author == "" {
-		book.Author = bookRequest.Author
+	if book.AuthorID == 0 {
+		book.AuthorID = bookRequest.AuthorID
 	}
 	if book.Publication == "" {
 		book.Publication = bookRequest.Publication
