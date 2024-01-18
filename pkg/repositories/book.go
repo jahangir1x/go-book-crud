@@ -66,3 +66,10 @@ func (repo *bookRepo) DeleteBook(bookID uint) error {
 	}
 	return nil
 }
+func (repo *bookRepo) DeleteBooksByAuthorID(authorID uint) error {
+	var Book models.BookDetail
+	if err := repo.db.Where("author_id = ?", authorID).Delete(&Book).Error; err != nil {
+		return err
+	}
+	return nil
+}

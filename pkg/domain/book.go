@@ -12,6 +12,7 @@ type IBookRepo interface {
 	CreateBook(book *models.BookDetail) error
 	UpdateBook(book *models.BookDetail) error
 	DeleteBook(bookID uint) error
+	DeleteBooksByAuthorID(authorID uint) error
 }
 
 // for service operation (response to controller | call from controller)

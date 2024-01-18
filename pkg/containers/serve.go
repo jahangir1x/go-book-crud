@@ -25,7 +25,7 @@ func Serve(e *echo.Echo) {
 
 	//service initialization
 	bookService := services.BookServiceInstance(bookRepo, authorRepo)
-	authorService := services.AuthorServiceInstance(authorRepo)
+	authorService := services.AuthorServiceInstance(authorRepo, bookRepo)
 
 	//controller initialization
 	bookCtr := controllers.NewBookController(bookService)
