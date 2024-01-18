@@ -71,7 +71,6 @@ func (service *bookService) UpdateBook(updatedBook *models.BookDetail) error {
 	if updatedBook.BookName == "" {
 		updatedBook.BookName = existingBook.BookName
 	}
-	_, err = service.authorRepo.GetAuthor(updatedBook.AuthorID)
 	if err != nil {
 		return errors.New("Author ID not found")
 	}

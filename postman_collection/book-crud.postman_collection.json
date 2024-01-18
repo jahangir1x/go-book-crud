@@ -1,107 +1,303 @@
 {
 	"info": {
-		"_postman_id": "e42a3aab-649f-4e93-b93d-f1921a7088db",
+		"_postman_id": "3b297416-524c-4879-b3eb-d00c8404412b",
 		"name": "book-crud",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "23538609",
-		"_collection_link": "https://solar-crescent-884510.postman.co/workspace/Team-Workspace~16e47d5b-317d-4e5b-8805-1b55856b34e9/collection/23538609-e42a3aab-649f-4e93-b93d-f1921a7088db?action=share&source=collection_link&creator=23538609"
+		"_exporter_id": "31062623"
 	},
 	"item": [
 		{
-			"name": "create-book",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"bookname\" : \"Killing Floor\",\n    \"author\" : \"Lee Child\",\n    \"publication\" : \"Oxford Press\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+			"name": "authors query",
+			"item": [
+				{
+					"name": "create author",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"authorName\": \"J.K. Rowling\",\n  \"address\": \"London, UK\",\n  \"phoneNumber\": \"+44 20 7946 0958\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/bookstore/authors",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"bookstore",
+								"authors"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "localhost:8080/bookstore/book",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"bookstore",
-						"book"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "get-book",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "localhost:8080/bookstore/book",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"bookstore",
-						"book"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "update-book",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"bookname\": \"Fight For Your Life\",\n    \"author\": \"Del Carnegi\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+				{
+					"name": "get authors",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/bookstore/authors",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"bookstore",
+								"authors"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "localhost:8080/bookstore/book/2",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"bookstore",
-						"book",
-						"2"
-					]
+				{
+					"name": "get author by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/bookstore/authors/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"bookstore",
+								"authors",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update author by id",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"address\" : \"something cool\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/bookstore/authors/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"bookstore",
+								"authors",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete author by id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/bookstore/authors/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"bookstore",
+								"authors",
+								"1"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		},
 		{
-			"name": "delete-book",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "localhost:8080/bookstore/book/2",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"bookstore",
-						"book",
-						"2"
-					]
+			"name": "books query",
+			"item": [
+				{
+					"name": "create book",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"bookName\": \"Harry Potter and the Philosopher's Stone\",\n  \"authorID\": 1,\n  \"publication\": \"Scholastic\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/bookstore/books",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"bookstore",
+								"books"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get books",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/bookstore/books",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"bookstore",
+								"books"
+							],
+							"query": [
+								{
+									"key": "bookID",
+									"value": "8",
+									"disabled": true
+								},
+								{
+									"key": "authorID",
+									"value": "5",
+									"disabled": true
+								},
+								{
+									"key": "publication",
+									"value": "Scholastic",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get filtered books",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/bookstore/books?bookID=8&authorID=5",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"bookstore",
+								"books"
+							],
+							"query": [
+								{
+									"key": "bookID",
+									"value": "8"
+								},
+								{
+									"key": "authorID",
+									"value": "5"
+								},
+								{
+									"key": "publication",
+									"value": "Scholastic",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get book by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/bookstore/books/8",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"bookstore",
+								"books",
+								"8"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update book id",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"publication\": \"TESTING\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/bookstore/books/8",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"bookstore",
+								"books",
+								"8"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete book by id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/bookstore/books/2",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"bookstore",
+								"books",
+								"2"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		},
 		{
 			"name": "query param (external api)",
@@ -118,7 +314,7 @@
 					}
 				],
 				"url": {
-					"raw": "https://simple-books-api.glitch.me/books?type=fiction",
+					"raw": "https://simple-books-api.glitch.me/books",
 					"protocol": "https",
 					"host": [
 						"simple-books-api",
@@ -127,12 +323,6 @@
 					],
 					"path": [
 						"books"
-					],
-					"query": [
-						{
-							"key": "type",
-							"value": "fiction"
-						}
 					]
 				}
 			},
