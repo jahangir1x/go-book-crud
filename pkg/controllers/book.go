@@ -12,6 +12,7 @@ import (
 type IBookController interface {
 	CreateBook(e echo.Context) error
 	GetBook(e echo.Context) error
+	GetAllBooks(e echo.Context) error
 	UpdateBook(e echo.Context) error
 	DeleteBook(e echo.Context) error
 }

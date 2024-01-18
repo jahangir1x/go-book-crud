@@ -31,6 +31,7 @@ func Connect() {
 // creating new table in bookstore database
 func migrate() {
 	db.Migrator().AutoMigrate(&models.BookDetail{})
+	db.Migrator().AutoMigrate(&models.AuthorDetail{})
 }
 
 // calling the connect function to initialize connection

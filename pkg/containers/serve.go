@@ -13,7 +13,6 @@ import (
 )
 
 func Serve(e *echo.Echo) {
-
 	//config initialization
 	config.SetConfig()
 
@@ -22,18 +21,23 @@ func Serve(e *echo.Echo) {
 
 	// repository initialization
 	bookRepo := repositories.BookDBInstance(db)
+	authorRepo := repositories.AuthorDBInstance(db)
 
 	//service initialization
 	bookService := services.BookServiceInstance(bookRepo)
+	authorService := services.AuthorServiceInstance(authorRepo)
 
 	//controller initialization
 	bookCtr := controllers.NewBookController(bookService)
+	authorCtr := controllers.NewAuthorController(authorService)
 
 	//route initialization
 	b := routes.BookRoutes(e, bookCtr)
+	authorRoutes := routes.AuthorRoutes(e, authorCtr)
 
 	b.InitBookRoute()
+	authorRoutes.InitAuthorRoutes()
+
 	// starting server
 	log.Fatal(e.Start(fmt.Sprintf(":%s", config.LocalConfig.Port)))
-
 }
