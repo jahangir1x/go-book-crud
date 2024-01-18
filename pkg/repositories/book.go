@@ -4,6 +4,8 @@ import (
 	"book-crud/pkg/domain"
 	"book-crud/pkg/models"
 	"gorm.io/gorm"
+	"gorm.io/gorm/schema"
+	"sync"
 )
 
 // parent struct to implement interface binding
@@ -19,9 +21,19 @@ func BookDBInstance(d *gorm.DB) domain.IBookRepo {
 }
 
 // all methods of interface are implemented
-func (repo *bookRepo) GetAllBooks() []models.BookDetail {
+func (repo *bookRepo) GetAllBooks(request map[string]string) []models.BookDetail {
 	var book []models.BookDetail
-	err := repo.db.Find(&book).Error
+	parsedSchema, err := schema.Parse(&models.BookDetail{}, &sync.Map{}, schema.NamingStrategy{})
+	if err != nil {
+		panic("Error in parsing schema")
+	}
+	err = repo.db.Find(&book).Error
+	for key, value := range request {
+		if value != "" {
+			mappedName := parsedSchema.FieldsByName[key].DBName
+			err = repo.db.Where(mappedName+" = ?", value).Find(&book).Error
+		}
+	}
 	if err != nil {
 		return []models.BookDetail{}
 	}

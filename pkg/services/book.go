@@ -9,20 +9,22 @@ import (
 
 // parent struct to implement interface binding
 type bookService struct {
-	repo domain.IBookRepo
+	bookRepo   domain.IBookRepo
+	authorRepo domain.IAuthorRepo
 }
 
 // interface binding
-func BookServiceInstance(bookRepo domain.IBookRepo) domain.IBookService {
+func BookServiceInstance(bookRepo domain.IBookRepo, authorRepo domain.IAuthorRepo) domain.IBookService {
 	return &bookService{
-		repo: bookRepo,
+		bookRepo:   bookRepo,
+		authorRepo: authorRepo,
 	}
 }
 
 // all methods of interface are implemented
-func (service *bookService) GetAllBooks() ([]types.BookRequest, error) {
+func (service *bookService) GetAllBooks(request map[string]string) ([]types.BookRequest, error) {
 	var allBooks []types.BookRequest
-	book := service.repo.GetAllBooks()
+	book := service.bookRepo.GetAllBooks(request)
 	if len(book) == 0 {
 		return nil, errors.New("No book found")
 	}
@@ -37,7 +39,7 @@ func (service *bookService) GetAllBooks() ([]types.BookRequest, error) {
 	return allBooks, nil
 }
 func (service *bookService) GetBook(bookID uint) (types.BookRequest, error) {
-	bookDetail, err := service.repo.GetBook(bookID)
+	bookDetail, err := service.bookRepo.GetBook(bookID)
 	book := types.BookRequest{
 		ID:          bookDetail.ID,
 		BookName:    bookDetail.BookName,
@@ -50,7 +52,11 @@ func (service *bookService) GetBook(bookID uint) (types.BookRequest, error) {
 	return book, nil
 }
 func (service *bookService) CreateBook(book *models.BookDetail) error {
-	if err := service.repo.CreateBook(book); err != nil {
+	_, err := service.authorRepo.GetAuthor(book.AuthorID)
+	if err != nil {
+		return errors.New("Author ID not found")
+	}
+	if err := service.bookRepo.CreateBook(book); err != nil {
 		return errors.New("BookDetail was not created")
 	}
 	return nil
@@ -58,12 +64,16 @@ func (service *bookService) CreateBook(book *models.BookDetail) error {
 
 func (service *bookService) UpdateBook(updatedBook *models.BookDetail) error {
 
-	existingBook, err := service.GetBook(uint(updatedBook.ID))
+	existingBook, err := service.GetBook(updatedBook.ID)
 	if err != nil {
 		return errors.New("No book found")
 	}
 	if updatedBook.BookName == "" {
 		updatedBook.BookName = existingBook.BookName
+	}
+	_, err = service.authorRepo.GetAuthor(updatedBook.AuthorID)
+	if err != nil {
+		return errors.New("Author ID not found")
 	}
 	if updatedBook.AuthorID == 0 {
 		updatedBook.AuthorID = existingBook.AuthorID
@@ -71,13 +81,13 @@ func (service *bookService) UpdateBook(updatedBook *models.BookDetail) error {
 	if updatedBook.Publication == "" {
 		updatedBook.Publication = existingBook.Publication
 	}
-	if err := service.repo.UpdateBook(updatedBook); err != nil {
+	if err := service.bookRepo.UpdateBook(updatedBook); err != nil {
 		return errors.New("BookDetail update was unsuccessful")
 	}
 	return nil
 }
 func (service *bookService) DeleteBook(bookID uint) error {
-	if err := service.repo.DeleteBook(bookID); err != nil {
+	if err := service.bookRepo.DeleteBook(bookID); err != nil {
 		return errors.New("BookDetail deletion was unsuccessful")
 	}
 	return nil

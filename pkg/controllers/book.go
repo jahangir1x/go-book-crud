@@ -60,7 +60,28 @@ func (bs *BookController) GetBook(e echo.Context) error {
 	return e.JSON(http.StatusOK, book)
 }
 func (bs *BookController) GetAllBooks(e echo.Context) error {
-	books, err := bs.bookSvc.GetAllBooks()
+	bookRequest := make(map[string]string)
+	if e.QueryParams().Has("bookID") {
+		_, err := strconv.ParseUint(e.QueryParam("bookID"), 0, 0)
+		if err != nil {
+			return e.JSON(http.StatusBadRequest, "Enter a valid book ID")
+		}
+		bookRequest["ID"] = e.QueryParam("bookID")
+	}
+	if e.QueryParams().Has("bookName") {
+		bookRequest["BookName"] = e.QueryParam("bookName")
+	}
+	if e.QueryParams().Has("authorID") {
+		_, err := strconv.ParseUint(e.QueryParam("authorID"), 0, 0)
+		if err != nil {
+			return e.JSON(http.StatusBadRequest, "Enter a valid author ID")
+		}
+		bookRequest["AuthorID"] = e.QueryParam("authorID")
+	}
+	if e.QueryParams().Has("publication") {
+		bookRequest["Publication"] = e.QueryParam("publication")
+	}
+	books, err := bs.bookSvc.GetAllBooks(bookRequest)
 	if err != nil {
 		return e.JSON(http.StatusBadRequest, err.Error())
 	}
