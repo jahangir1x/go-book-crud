@@ -77,17 +77,13 @@ func (authorService *AuthorController) UpdateAuthor(e echo.Context) error {
 	if err != nil {
 		return e.JSON(http.StatusBadRequest, "Enter a valid author ID")
 	}
-	existingAuthor, err := authorService.authorSvc.GetAuthor(uint(authorID))
-	if err != nil {
-		return e.JSON(http.StatusBadRequest, err.Error())
-	}
 	updatedAuthor := &models.AuthorDetail{
 		ID:          uint(authorID),
 		AuthorName:  authorRequest.AuthorName,
 		Address:     authorRequest.Address,
 		PhoneNumber: authorRequest.PhoneNumber,
 	}
-	if err := authorService.authorSvc.UpdateAuthor(existingAuthor, updatedAuthor); err != nil {
+	if err := authorService.authorSvc.UpdateAuthor(updatedAuthor); err != nil {
 		return e.JSON(http.StatusInternalServerError, err.Error())
 	}
 	return e.JSON(http.StatusOK, "Author was updated successfully")

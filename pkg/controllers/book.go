@@ -76,17 +76,13 @@ func (bs *BookController) UpdateBook(e echo.Context) error {
 	if err != nil {
 		return e.JSON(http.StatusBadRequest, "Enter a valid book ID")
 	}
-	existingBook, err := bs.bookSvc.GetBook(uint(bookID))
-	if err != nil {
-		return e.JSON(http.StatusBadRequest, err.Error())
-	}
 	updatedBook := &models.BookDetail{
 		ID:          uint(bookID),
 		BookName:    reqBook.BookName,
 		AuthorID:    reqBook.AuthorID,
 		Publication: reqBook.Publication,
 	}
-	if err := bs.bookSvc.UpdateBook(existingBook, updatedBook); err != nil {
+	if err := bs.bookSvc.UpdateBook(updatedBook); err != nil {
 		return e.JSON(http.StatusInternalServerError, err.Error())
 	}
 	return e.JSON(http.StatusCreated, "BookDetail was updated successfully")

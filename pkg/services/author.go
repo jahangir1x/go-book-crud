@@ -55,17 +55,21 @@ func (service *authorService) CreateAuthor(author *models.AuthorDetail) error {
 	return nil
 }
 
-func (service *authorService) UpdateAuthor(authorRequest types.AuthorRequest, author *models.AuthorDetail) error {
-	if author.AuthorName == "" {
-		author.AuthorName = authorRequest.AuthorName
+func (service *authorService) UpdateAuthor(updatedAuthor *models.AuthorDetail) error {
+	existingAuthor, err := service.GetAuthor(uint(updatedAuthor.ID))
+	if err != nil {
+		return errors.New("No author found")
 	}
-	if author.Address == "" {
-		author.Address = authorRequest.Address
+	if updatedAuthor.AuthorName == "" {
+		updatedAuthor.AuthorName = existingAuthor.AuthorName
 	}
-	if author.PhoneNumber == "" {
-		author.PhoneNumber = authorRequest.PhoneNumber
+	if updatedAuthor.Address == "" {
+		updatedAuthor.Address = existingAuthor.Address
 	}
-	if err := service.repo.UpdateAuthor(author); err != nil {
+	if updatedAuthor.PhoneNumber == "" {
+		updatedAuthor.PhoneNumber = existingAuthor.PhoneNumber
+	}
+	if err := service.repo.UpdateAuthor(updatedAuthor); err != nil {
 		return errors.New("Author was not updated")
 	}
 	return nil

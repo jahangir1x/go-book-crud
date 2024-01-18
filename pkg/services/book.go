@@ -56,17 +56,22 @@ func (service *bookService) CreateBook(book *models.BookDetail) error {
 	return nil
 }
 
-func (service *bookService) UpdateBook(bookRequest types.BookRequest, book *models.BookDetail) error {
-	if book.BookName == "" {
-		book.BookName = bookRequest.BookName
+func (service *bookService) UpdateBook(updatedBook *models.BookDetail) error {
+
+	existingBook, err := service.GetBook(uint(updatedBook.ID))
+	if err != nil {
+		return errors.New("No book found")
 	}
-	if book.AuthorID == 0 {
-		book.AuthorID = bookRequest.AuthorID
+	if updatedBook.BookName == "" {
+		updatedBook.BookName = existingBook.BookName
 	}
-	if book.Publication == "" {
-		book.Publication = bookRequest.Publication
+	if updatedBook.AuthorID == 0 {
+		updatedBook.AuthorID = existingBook.AuthorID
 	}
-	if err := service.repo.UpdateBook(book); err != nil {
+	if updatedBook.Publication == "" {
+		updatedBook.Publication = existingBook.Publication
+	}
+	if err := service.repo.UpdateBook(updatedBook); err != nil {
 		return errors.New("BookDetail update was unsuccessful")
 	}
 	return nil

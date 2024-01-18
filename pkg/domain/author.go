@@ -17,6 +17,6 @@ type IAuthorService interface {
 	GetAllAuthors() ([]types.AuthorRequest, error)
 	GetAuthor(authorID uint) (types.AuthorRequest, error)
 	CreateAuthor(author *models.AuthorDetail) error
-	UpdateAuthor(authorRequest types.AuthorRequest, author *models.AuthorDetail) error
+	UpdateAuthor(updatedAuthor *models.AuthorDetail) error
 	DeleteAuthor(authorID uint) error
 }

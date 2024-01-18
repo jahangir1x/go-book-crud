@@ -19,6 +19,6 @@ type IBookService interface {
 	GetAllBooks() ([]types.BookRequest, error)
 	GetBook(bookID uint) (types.BookRequest, error)
 	CreateBook(book *models.BookDetail) error
-	UpdateBook(bookRequest types.BookRequest, book *models.BookDetail) error
+	UpdateBook(updatedBook *models.BookDetail) error
 	DeleteBook(bookID uint) error
 }
