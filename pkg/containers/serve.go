@@ -22,21 +22,27 @@ func Serve(e *echo.Echo) {
 	// repository initialization
 	bookRepo := repositories.BookDBInstance(db)
 	authorRepo := repositories.AuthorDBInstance(db)
+	userRepo := repositories.UserDBInstance(db)
 
-	//service initialization
+	// service initialization
 	bookService := services.BookServiceInstance(bookRepo, authorRepo)
 	authorService := services.AuthorServiceInstance(authorRepo, bookRepo)
+	authService := services.AuthServiceInstance(userRepo)
 
-	//controller initialization
+	// controller initialization
 	bookCtr := controllers.NewBookController(bookService)
 	authorCtr := controllers.NewAuthorController(authorService)
+	authCtr := controllers.NewAuthController(authService)
 
 	//route initialization
-	b := routes.BookRoutes(e, bookCtr)
-	authorRoutes := routes.AuthorRoutes(e, authorCtr)
+	bookRoutes := routes.NewBookRoutes(e, bookCtr)
+	authorRoutes := routes.NewAuthorRoutes(e, authorCtr)
+	authRoutes := routes.NewAuthRoutes(e, authCtr)
 
-	b.InitBookRoute()
+	//route binding
+	bookRoutes.InitBookRoute()
 	authorRoutes.InitAuthorRoutes()
+	authRoutes.InitAuthRoutes()
 
 	// starting server
 	log.Fatal(e.Start(fmt.Sprintf(":%s", config.LocalConfig.Port)))

@@ -30,8 +30,21 @@ func Connect() {
 
 // creating new table in bookstore database
 func migrate() {
-	db.Migrator().AutoMigrate(&models.BookDetail{})
-	db.Migrator().AutoMigrate(&models.AuthorDetail{})
+	err := db.Migrator().AutoMigrate(&models.BookDetail{})
+	if err != nil {
+		fmt.Println("Error migrating table. ", err)
+		panic(err)
+	}
+	err = db.Migrator().AutoMigrate(&models.AuthorDetail{})
+	if err != nil {
+		fmt.Println("Error migrating table. ", err)
+		panic(err)
+	}
+	err = db.Migrator().AutoMigrate(&models.UserDetail{})
+	if err != nil {
+		fmt.Println("Error migrating table. ", err)
+		panic(err)
+	}
 }
 
 // calling the connect function to initialize connection

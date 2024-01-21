@@ -7,11 +7,12 @@ import (
 
 // mapping the config vars with struct
 type Config struct {
-	DBUser string `mapstructure:"DBUSER"`
-	DBPass string `mapstructure:"DBPASS"`
-	DBIp   string `mapstructure:"DBIP"`
-	DBName string `mapstructure:"DBNAME"`
-	Port   string `mapstructure:"PORT"`
+	DBUser    string `mapstructure:"DBUSER"`
+	DBPass    string `mapstructure:"DBPASS"`
+	DBIp      string `mapstructure:"DBIP"`
+	DBName    string `mapstructure:"DBNAME"`
+	Port      string `mapstructure:"PORT"`
+	JwtSecret string `mapstructure:"JWT_SECRET"`
 }
 
 // initializing config vars

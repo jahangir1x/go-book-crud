@@ -32,6 +32,8 @@ func (authorService *AuthorController) CreateAuthor(e echo.Context) error {
 	if err := e.Bind(authorRequest); err != nil {
 		return e.JSON(http.StatusBadRequest, "Invalid Data")
 	}
+
+	// validate the request body
 	if err := authorRequest.Validate(); err != nil {
 		return e.JSON(http.StatusBadRequest, err.Error())
 	}

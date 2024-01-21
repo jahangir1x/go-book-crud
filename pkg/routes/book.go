@@ -2,37 +2,40 @@ package routes
 
 import (
 	"book-crud/pkg/controllers"
+	"book-crud/pkg/middlewares"
 	"fmt"
 	"github.com/labstack/echo/v4"
 	"net/http"
 )
 
-type bookRoutes struct {
+type BookRoutes struct {
 	echo    *echo.Echo
 	bookCtr controllers.BookController
 }
 
-func BookRoutes(echo *echo.Echo, bookCtr controllers.BookController) *bookRoutes {
-	return &bookRoutes{
+func NewBookRoutes(echo *echo.Echo, bookCtr controllers.BookController) *BookRoutes {
+	return &BookRoutes{
 		echo:    echo,
 		bookCtr: bookCtr,
 	}
 }
 
-func (bc *bookRoutes) InitBookRoute() {
+func (bc *BookRoutes) InitBookRoute() {
 	e := bc.echo
 	bc.initBookRoutes(e)
 }
 
-func (bc *bookRoutes) initBookRoutes(e *echo.Echo) {
+func (bc *BookRoutes) initBookRoutes(e *echo.Echo) {
 	//grouping route endpoints
 	book := e.Group("/bookstore")
 
 	book.GET("/ping", Pong)
 
 	//initializing http methods - routing endpoints and their handlers
-	book.POST("/books", bc.bookCtr.CreateBook)
 	book.GET("/books", bc.bookCtr.GetAllBooks)
+
+	book.Use(middlewares.ValidateToken)
+	book.POST("/books", bc.bookCtr.CreateBook)
 	book.GET("/books/:bookID", bc.bookCtr.GetBook)
 	book.PUT("/books/:bookID", bc.bookCtr.UpdateBook)
 	book.DELETE("/books/:bookID", bc.bookCtr.DeleteBook)
