@@ -8,20 +8,20 @@ import (
 	"sync"
 )
 
-// BookRepo defines the methods of the domain.IBookRepo interface.
-type BookRepo struct {
+// bookRepo defines the methods of the domain.IBookRepo interface.
+type bookRepo struct {
 	db *gorm.DB
 }
 
-// BookDBInstance returns a new instance of the BookRepo struct.
+// BookDBInstance returns a new instance of the bookRepo struct.
 func BookDBInstance(d *gorm.DB) domain.IBookRepo {
-	return &BookRepo{
+	return &bookRepo{
 		db: d,
 	}
 }
 
 // GetFilteredBooks returns a list of books filtered by the request.
-func (repo *BookRepo) GetFilteredBooks(request map[string]string) ([]models.BookDetail, error) {
+func (repo *bookRepo) GetFilteredBooks(request map[string]string) ([]models.BookDetail, error) {
 	// get all books
 	var bookDetails []models.BookDetail
 	if err := repo.db.Find(&bookDetails).Error; err != nil {
@@ -47,7 +47,7 @@ func (repo *BookRepo) GetFilteredBooks(request map[string]string) ([]models.Book
 }
 
 // GetBook returns a book by the bookID.
-func (repo *BookRepo) GetBook(bookID uint) (*models.BookDetail, error) {
+func (repo *bookRepo) GetBook(bookID uint) (*models.BookDetail, error) {
 	bookDetail := &models.BookDetail{}
 	if err := repo.db.Where("id = ?", bookID).First(bookDetail).Error; err != nil {
 		return nil, err
@@ -56,7 +56,7 @@ func (repo *BookRepo) GetBook(bookID uint) (*models.BookDetail, error) {
 }
 
 // CreateBook creates a new book with given book details.
-func (repo *BookRepo) CreateBook(book *models.BookDetail) error {
+func (repo *bookRepo) CreateBook(book *models.BookDetail) error {
 	if err := repo.db.Create(book).Error; err != nil {
 		return err
 	}
@@ -64,7 +64,7 @@ func (repo *BookRepo) CreateBook(book *models.BookDetail) error {
 }
 
 // UpdateBook updates a book with given book details.
-func (repo *BookRepo) UpdateBook(book *models.BookDetail) error {
+func (repo *bookRepo) UpdateBook(book *models.BookDetail) error {
 	if err := repo.db.Save(book).Error; err != nil {
 		return err
 	}
@@ -72,7 +72,7 @@ func (repo *BookRepo) UpdateBook(book *models.BookDetail) error {
 }
 
 // DeleteBook deletes a book with the given bookID
-func (repo *BookRepo) DeleteBook(bookID uint) error {
+func (repo *bookRepo) DeleteBook(bookID uint) error {
 	bookDetail := &models.BookDetail{}
 	if err := repo.db.Where("id = ?", bookID).Delete(bookDetail).Error; err != nil {
 		return err
@@ -81,7 +81,7 @@ func (repo *BookRepo) DeleteBook(bookID uint) error {
 }
 
 // DeleteBooksByAuthorID deletes books by authorID.
-func (repo *BookRepo) DeleteBooksByAuthorID(authorID uint) error {
+func (repo *bookRepo) DeleteBooksByAuthorID(authorID uint) error {
 	bookDetail := &models.BookDetail{}
 	if err := repo.db.Where("author_id = ?", authorID).Delete(bookDetail).Error; err != nil {
 		return err

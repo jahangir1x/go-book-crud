@@ -8,20 +8,20 @@ import (
 	"errors"
 )
 
-// AuthService defines the methods of the domain.IAuthService interface.
-type AuthService struct {
+// authService defines the methods of the domain.IAuthService interface.
+type authService struct {
 	userRepo domain.IUserRepo
 }
 
-// AuthServiceInstance returns a new instance of the AuthService struct.
+// AuthServiceInstance returns a new instance of the authService struct.
 func AuthServiceInstance(userRepo domain.IUserRepo) domain.IAuthService {
-	return &AuthService{
+	return &authService{
 		userRepo: userRepo,
 	}
 }
 
 // LoginUser returns a JWT token for the user if the credentials are correct.
-func (service *AuthService) LoginUser(loginRequest *types.LoginRequest) (*types.LoginResponse, error) {
+func (service *authService) LoginUser(loginRequest *types.LoginRequest) (*types.LoginResponse, error) {
 	// Check if user exists
 	existingUser, err := service.userRepo.GetUser(&loginRequest.UserName)
 	if err != nil {
@@ -46,7 +46,7 @@ func (service *AuthService) LoginUser(loginRequest *types.LoginRequest) (*types.
 }
 
 // SignupUser creates a new user with the given user details.
-func (service *AuthService) SignupUser(registerRequest *types.SignupRequest) error {
+func (service *authService) SignupUser(registerRequest *types.SignupRequest) error {
 	// get hashed password
 	passwordHash, err := utils.GetHashedPassword(registerRequest.Password)
 	if err != nil {

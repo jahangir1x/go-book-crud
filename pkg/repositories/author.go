@@ -8,20 +8,20 @@ import (
 	"sync"
 )
 
-// AuthorRepo defines the methods of the domain.IAuthorRepo interface.
-type AuthorRepo struct {
+// authorRepo defines the methods of the domain.IAuthorRepo interface.
+type authorRepo struct {
 	db *gorm.DB
 }
 
-// AuthorDBInstance returns a new instance of the AuthorRepo struct.
+// AuthorDBInstance returns a new instance of the authorRepo struct.
 func AuthorDBInstance(d *gorm.DB) domain.IAuthorRepo {
-	return &AuthorRepo{
+	return &authorRepo{
 		db: d,
 	}
 }
 
 // GetFilteredAuthors returns a list of authors filtered by the request.
-func (repo *AuthorRepo) GetFilteredAuthors(request map[string]string) ([]models.AuthorDetail, error) {
+func (repo *authorRepo) GetFilteredAuthors(request map[string]string) ([]models.AuthorDetail, error) {
 	// get all authors
 	var authorDetails []models.AuthorDetail
 	if err := repo.db.Find(&authorDetails).Error; err != nil {
@@ -47,7 +47,7 @@ func (repo *AuthorRepo) GetFilteredAuthors(request map[string]string) ([]models.
 }
 
 // GetAuthor returns an author by the authorID.
-func (repo *AuthorRepo) GetAuthor(authorID uint) (*models.AuthorDetail, error) {
+func (repo *authorRepo) GetAuthor(authorID uint) (*models.AuthorDetail, error) {
 	authorDetail := &models.AuthorDetail{}
 	if err := repo.db.Where("id = ?", authorID).First(authorDetail).Error; err != nil {
 		return nil, err
@@ -56,7 +56,7 @@ func (repo *AuthorRepo) GetAuthor(authorID uint) (*models.AuthorDetail, error) {
 }
 
 // CreateAuthor creates a new author with given book details.
-func (repo *AuthorRepo) CreateAuthor(author *models.AuthorDetail) error {
+func (repo *authorRepo) CreateAuthor(author *models.AuthorDetail) error {
 	if err := repo.db.Create(author).Error; err != nil {
 		return err
 	}
@@ -64,7 +64,7 @@ func (repo *AuthorRepo) CreateAuthor(author *models.AuthorDetail) error {
 }
 
 // UpdateAuthor updates an author with given author details.
-func (repo *AuthorRepo) UpdateAuthor(author *models.AuthorDetail) error {
+func (repo *authorRepo) UpdateAuthor(author *models.AuthorDetail) error {
 	if err := repo.db.Save(author).Error; err != nil {
 		return err
 	}
@@ -72,7 +72,7 @@ func (repo *AuthorRepo) UpdateAuthor(author *models.AuthorDetail) error {
 }
 
 // DeleteAuthor deletes an author with the given authorID.
-func (repo *AuthorRepo) DeleteAuthor(authorID uint) error {
+func (repo *authorRepo) DeleteAuthor(authorID uint) error {
 	authorDetail := &models.AuthorDetail{}
 	if err := repo.db.Where("id = ?", authorID).Delete(authorDetail).Error; err != nil {
 		return err
