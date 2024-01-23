@@ -30,10 +30,11 @@ func (bookRoutes *BookRoutes) InitBookRoutes() {
 
 	book := e.Group("/bookstore")
 	book.GET("/books", bookRoutes.controller.GetFilteredBooks)
+	book.GET("/books/:id", bookRoutes.controller.GetBook)
 
 	book.Use(middlewares.ValidateToken)
+
 	book.POST("/books", bookRoutes.controller.CreateBook)
-	book.GET("/books/:id", bookRoutes.controller.GetBook)
 	book.PUT("/books/:id", bookRoutes.controller.UpdateBook)
 	book.DELETE("/books/:id", bookRoutes.controller.DeleteBook)
 }

@@ -7,6 +7,7 @@
 #### 1. Create Author
 - **Path:** `/bookstore/authors`
 - **Method:** `POST`
+- **Authorization required:** `YES`
 - **Request Body:**
   ```json
   {
@@ -19,9 +20,9 @@
     - `POST /bookstore/authors`
       ```json
       {
-        "authorName": "Example Author",
-        "address": "Example Address",
-        "phoneNumber": "1234567890"
+        "authorName":  "Example Author",
+        "address":     "Example Address",
+        "phoneNumber": "+1234567890"
       }
       ```
     - `POST /bookstore/authors`
@@ -35,6 +36,7 @@
 
 - **Path:** `/bookstore/authors`
 - **Method:** `GET`
+- **Authorization required:** `NO`
 - **Example:**
     - `GET /bookstore/authors`
 ***
@@ -58,23 +60,23 @@
 - **Request Body:**
   ```json
   {
-    "authorName": "new name", // optional
-    "address": "new address" // optional
-    "phoneNumber": "new phone number" // optional
+    "authorName":  "Jane Smith",     // optional
+    "address":     "987 Main St.",   // optional
+    "phoneNumber": "+10 98 7654 321" // optional
   }
   ```
 - **Example:**
     - `PUT /bookstore/authors/1`
       ```json
       {
-        "authorName": "newName",
-        "address": "new address"
+        "authorName": "New Name",
+        "address":    "New Address"
       }
       ```
     - `PUT /bookstore/authors/123`
       ```json
       {
-        "authorName": "newName"
+        "authorName": "New Name"
       }
       ```
 ***
@@ -84,24 +86,24 @@
 - **Request Body:**
   ```json
   {
-    "bookName": "name", // required
-    "authorID": 99, // required
-    "publication": "publication" // optional
+    "bookName":    "Book Name", // required
+    "authorID":    99,          // required
+    "publication": "Pub Name"   // optional
   }
   ```
 - **Example:**
     - `POST /bookstore/books`
       ```json
       {
-        "bookName": "ExampleBook",
-        "authorID": 42,
+        "bookName":    "Example Book",
+        "authorID":    42,
         "publication": "Example Publication"
       }
       ```
     - `POST /bookstore/books`
       ```json
       {
-        "bookName": "ExampleBook",
+        "bookName": "Example Book",
         "authorID": 42
       }
       ```
@@ -143,23 +145,23 @@
 - **Request Body:** *(all fields are optional)*
   ```json
   {
-    "bookName": "new name", // optional
-    "authorID": 99, // optional
-    "publication": "new publication" // optional
+    "bookName":    "New Name", // optional
+    "authorID":    99,         // optional
+    "publication": "New Pub"   // optional
   }
   ```
 - **Example:**
     - `PUT /bookstore/books/1`
       ```json
       {
-        "bookName": "newName",
-        "publication": "new publication"
+        "bookName":    "New Name",
+        "publication": "New Pub"
       }
       ```
     - `PUT /bookstore/books/123`
       ```json
       {
-        "bookName": "newName"
+        "bookName": "New Name"
       }
       ```
 ***

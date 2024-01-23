@@ -26,10 +26,11 @@ func (authorRoutes *AuthorRoutes) InitAuthorRoutes() {
 
 	author := e.Group("/bookstore")
 	author.GET("/authors", authorRoutes.controller.GetFilteredAuthors)
+	author.GET("/authors/:id", authorRoutes.controller.GetAuthor)
 
 	author.Use(middlewares.ValidateToken)
+
 	author.POST("/authors", authorRoutes.controller.CreateAuthor)
-	author.GET("/authors/:id", authorRoutes.controller.GetAuthor)
 	author.PUT("/authors/:id", authorRoutes.controller.UpdateAuthor)
 	author.DELETE("/authors/:id", authorRoutes.controller.DeleteAuthor)
 }
