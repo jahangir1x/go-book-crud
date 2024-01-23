@@ -5,11 +5,13 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// AuthRoutes stores controller and echo instance for authentication.
 type AuthRoutes struct {
 	echo    *echo.Echo
 	authCtr controllers.AuthController
 }
 
+// NewAuthRoutes returns a new instance of the AuthRoutes struct.
 func NewAuthRoutes(echo *echo.Echo, authCtr controllers.AuthController) *AuthRoutes {
 	return &AuthRoutes{
 		echo:    echo,
@@ -17,13 +19,10 @@ func NewAuthRoutes(echo *echo.Echo, authCtr controllers.AuthController) *AuthRou
 	}
 }
 
-func (ac *AuthRoutes) InitAuthRoutes() {
-	e := ac.echo
-	ac.initAuthRoutes(e)
-}
+// InitAuthRoutes initializes the authentication routes.
+func (routes *AuthRoutes) InitAuthRoutes() {
+	e := routes.echo
 
-func (ac *AuthRoutes) initAuthRoutes(e *echo.Echo) {
-
-	e.POST("/login", ac.authCtr.Login)
-	e.POST("/signup", ac.authCtr.Signup)
+	e.POST("/login", routes.authCtr.Login)
+	e.POST("/signup", routes.authCtr.Signup)
 }

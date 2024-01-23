@@ -8,5 +8,5 @@ type UserDetail struct {
 	PasswordHash string
 	Name         string
 	Email        string
-	Address      string `gorm:"omitempty"`
+	Address      string
 }

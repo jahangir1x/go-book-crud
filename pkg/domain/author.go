@@ -6,17 +6,17 @@ import (
 )
 
 type IAuthorRepo interface {
-	GetAllAuthors() []models.AuthorDetail
-	GetAuthor(authorID uint) (models.AuthorDetail, error)
+	GetFilteredAuthors(request map[string]string) ([]models.AuthorDetail, error)
+	GetAuthor(authorID uint) (*models.AuthorDetail, error)
 	CreateAuthor(author *models.AuthorDetail) error
 	UpdateAuthor(author *models.AuthorDetail) error
 	DeleteAuthor(authorID uint) error
 }
 
 type IAuthorService interface {
-	GetAllAuthors() ([]types.AuthorRequest, error)
-	GetAuthor(authorID uint) (types.AuthorRequest, error)
-	CreateAuthor(author *models.AuthorDetail) error
-	UpdateAuthor(updatedAuthor *models.AuthorDetail) error
+	GetFilteredAuthors(request map[string]string) ([]types.ReadAuthorResponse, error)
+	GetAuthor(authorID uint) (*types.ReadAuthorResponse, error)
+	CreateAuthor(request *types.CreateAuthorRequest) error
+	UpdateAuthor(authorID uint, request *types.UpdateAuthorRequest) error
 	DeleteAuthor(authorID uint) error
 }

@@ -7,6 +7,7 @@ import (
 	"time"
 )
 
+// GetHashedPassword returns the hashed password.
 func GetHashedPassword(password string) (string, error) {
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
@@ -15,13 +16,15 @@ func GetHashedPassword(password string) (string, error) {
 	return string(hashedPassword), nil
 }
 
-func CheckPassword(hashedPassword, password string) error {
-	return bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(password))
+// CheckPassword checks if the password is correct.
+func CheckPassword(passwordHash, password string) error {
+	return bcrypt.CompareHashAndPassword([]byte(passwordHash), []byte(password))
 }
 
+// GetJwtForUser returns the JWT for the user using username.
 func GetJwtForUser(username string) (string, error) {
 	now := time.Now().UTC()
-	ttl := time.Minute * 30
+	ttl := time.Minute * time.Duration(config.LocalConfig.JwtExpireMinutes)
 	claims := jwt.StandardClaims{
 		ExpiresAt: now.Add(ttl).Unix(),
 		IssuedAt:  now.Unix(),

@@ -5,35 +5,38 @@ import (
 	"book-crud/pkg/models"
 	"book-crud/pkg/types"
 	"book-crud/pkg/utils"
+	"errors"
 )
 
+// AuthService defines the methods of the domain.IAuthService interface.
 type AuthService struct {
 	userRepo domain.IUserRepo
 }
 
+// AuthServiceInstance returns a new instance of the AuthService struct.
 func AuthServiceInstance(userRepo domain.IUserRepo) domain.IAuthService {
 	return &AuthService{
 		userRepo: userRepo,
 	}
 }
 
+// LoginUser returns a JWT token for the user if the credentials are correct.
 func (service *AuthService) LoginUser(loginRequest *types.LoginRequest) (*types.LoginResponse, error) {
-	existingUser, err := service.userRepo.GetUser(loginRequest.UserName)
+	// Check if user exists
+	existingUser, err := service.userRepo.GetUser(&loginRequest.UserName)
 	if err != nil {
-		return &types.LoginResponse{}, err
+		return nil, errors.New("user does not exist")
 	}
-	if err != nil {
-		return &types.LoginResponse{}, err
-	}
-	err = utils.CheckPassword(existingUser.PasswordHash, loginRequest.Password)
-	if err != nil {
-		return &types.LoginResponse{}, err
+
+	// Check if password is correct
+	if err := utils.CheckPassword(existingUser.PasswordHash, loginRequest.Password); err != nil {
+		return nil, errors.New("incorrect password")
 	}
 
 	// Generate JWT token
 	token, err := utils.GetJwtForUser(existingUser.Username)
 	if err != nil {
-		return &types.LoginResponse{}, err
+		return nil, err
 	}
 
 	return &types.LoginResponse{
@@ -42,11 +45,15 @@ func (service *AuthService) LoginUser(loginRequest *types.LoginRequest) (*types.
 
 }
 
-func (service *AuthService) SignupUser(registerRequest *types.RegisterRequest) error {
+// SignupUser creates a new user with the given user details.
+func (service *AuthService) SignupUser(registerRequest *types.SignupRequest) error {
+	// get hashed password
 	passwordHash, err := utils.GetHashedPassword(registerRequest.Password)
 	if err != nil {
 		return err
 	}
+
+	// create user
 	user := &models.UserDetail{
 		Username:     registerRequest.UserName,
 		PasswordHash: passwordHash,
@@ -57,5 +64,6 @@ func (service *AuthService) SignupUser(registerRequest *types.RegisterRequest) e
 	if err := service.userRepo.CreateUser(user); err != nil {
 		return err
 	}
+
 	return nil
 }

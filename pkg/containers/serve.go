@@ -12,6 +12,7 @@ import (
 	"log"
 )
 
+// Serve is used to initialize the server.
 func Serve(e *echo.Echo) {
 	//config initialization
 	config.SetConfig()
@@ -40,7 +41,7 @@ func Serve(e *echo.Echo) {
 	authRoutes := routes.NewAuthRoutes(e, authCtr)
 
 	//route binding
-	bookRoutes.InitBookRoute()
+	bookRoutes.InitBookRoutes()
 	authorRoutes.InitAuthorRoutes()
 	authRoutes.InitAuthRoutes()
 

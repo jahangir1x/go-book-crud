@@ -8,39 +8,37 @@ import (
 	"net/http"
 )
 
+// BookRoutes stores controller and echo instance for book.
 type BookRoutes struct {
-	echo    *echo.Echo
-	bookCtr controllers.BookController
+	echo       *echo.Echo
+	controller controllers.BookController
 }
 
-func NewBookRoutes(echo *echo.Echo, bookCtr controllers.BookController) *BookRoutes {
+// NewBookRoutes returns a new instance of the BookRoutes struct.
+func NewBookRoutes(echo *echo.Echo, controller controllers.BookController) *BookRoutes {
 	return &BookRoutes{
-		echo:    echo,
-		bookCtr: bookCtr,
+		echo:       echo,
+		controller: controller,
 	}
 }
 
-func (bc *BookRoutes) InitBookRoute() {
-	e := bc.echo
-	bc.initBookRoutes(e)
-}
+// InitBookRoutes initializes the book routes.
+func (bookRoutes *BookRoutes) InitBookRoutes() {
+	e := bookRoutes.echo
 
-func (bc *BookRoutes) initBookRoutes(e *echo.Echo) {
-	//grouping route endpoints
+	e.GET("/ping", Pong)
+
 	book := e.Group("/bookstore")
-
-	book.GET("/ping", Pong)
-
-	//initializing http methods - routing endpoints and their handlers
-	book.GET("/books", bc.bookCtr.GetAllBooks)
+	book.GET("/books", bookRoutes.controller.GetFilteredBooks)
 
 	book.Use(middlewares.ValidateToken)
-	book.POST("/books", bc.bookCtr.CreateBook)
-	book.GET("/books/:bookID", bc.bookCtr.GetBook)
-	book.PUT("/books/:bookID", bc.bookCtr.UpdateBook)
-	book.DELETE("/books/:bookID", bc.bookCtr.DeleteBook)
+	book.POST("/books", bookRoutes.controller.CreateBook)
+	book.GET("/books/:id", bookRoutes.controller.GetBook)
+	book.PUT("/books/:id", bookRoutes.controller.UpdateBook)
+	book.DELETE("/books/:id", bookRoutes.controller.DeleteBook)
 }
 
+// Pong checks if the server is running.
 func Pong(ctx echo.Context) error {
 	fmt.Println("Pong")
 	return ctx.JSON(http.StatusOK, "Pong")

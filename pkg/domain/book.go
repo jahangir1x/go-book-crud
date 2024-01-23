@@ -5,21 +5,19 @@ import (
 	"book-crud/pkg/types"
 )
 
-// for database repository operation (call from service)
 type IBookRepo interface {
-	GetAllBooks(request map[string]string) []models.BookDetail
-	GetBook(bookID uint) (models.BookDetail, error)
+	GetFilteredBooks(request map[string]string) ([]models.BookDetail, error)
+	GetBook(bookID uint) (*models.BookDetail, error)
 	CreateBook(book *models.BookDetail) error
 	UpdateBook(book *models.BookDetail) error
 	DeleteBook(bookID uint) error
 	DeleteBooksByAuthorID(authorID uint) error
 }
 
-// for service operation (response to controller | call from controller)
 type IBookService interface {
-	GetAllBooks(request map[string]string) ([]types.BookRequest, error)
-	GetBook(bookID uint) (types.BookRequest, error)
-	CreateBook(book *models.BookDetail) error
-	UpdateBook(updatedBook *models.BookDetail) error
+	GetFilteredBooks(request map[string]string) ([]types.ReadBookResponse, error)
+	GetBook(bookID uint) (*types.ReadBookResponse, error)
+	CreateBook(request *types.CreateBookRequest) error
+	UpdateBook(bookID uint, request *types.UpdateBookRequest) error
 	DeleteBook(bookID uint) error
 }

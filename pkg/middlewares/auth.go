@@ -8,6 +8,7 @@ import (
 	"strings"
 )
 
+// ValidateToken validates the token in the Authorization header.
 func ValidateToken(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		// Get the Authorization header
