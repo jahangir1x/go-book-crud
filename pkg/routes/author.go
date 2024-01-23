@@ -2,31 +2,35 @@ package routes
 
 import (
 	"book-crud/pkg/controllers"
+	"book-crud/pkg/middlewares"
 	"github.com/labstack/echo/v4"
 )
 
-type authorRoutes struct {
-	echo             *echo.Echo
-	authorController controllers.AuthorController
+// AuthorRoutes stores controller and echo instance for author.
+type AuthorRoutes struct {
+	echo       *echo.Echo
+	controller controllers.AuthorController
 }
 
-func AuthorRoutes(echo *echo.Echo, authorController controllers.AuthorController) *authorRoutes {
-	return &authorRoutes{
-		echo:             echo,
-		authorController: authorController,
+// NewAuthorRoutes returns a new instance of the AuthorRoutes struct.
+func NewAuthorRoutes(echo *echo.Echo, controller controllers.AuthorController) *AuthorRoutes {
+	return &AuthorRoutes{
+		echo:       echo,
+		controller: controller,
 	}
 }
 
-func (authorRoutes *authorRoutes) InitAuthorRoutes() {
+// InitAuthorRoutes initializes the author routes.
+func (authorRoutes *AuthorRoutes) InitAuthorRoutes() {
 	e := authorRoutes.echo
-	authorRoutes.initAuthorRoutes(e)
-}
 
-func (authorRoutes *authorRoutes) initAuthorRoutes(e *echo.Echo) {
 	author := e.Group("/bookstore")
-	author.POST("/authors", authorRoutes.authorController.CreateAuthor)
-	author.GET("/authors", authorRoutes.authorController.GetAllAuthors)
-	author.GET("/authors/:authorID", authorRoutes.authorController.GetAuthor)
-	author.PUT("/authors/:authorID", authorRoutes.authorController.UpdateAuthor)
-	author.DELETE("/authors/:authorID", authorRoutes.authorController.DeleteAuthor)
+	author.GET("/authors", authorRoutes.controller.GetFilteredAuthors)
+	author.GET("/authors/:id", authorRoutes.controller.GetAuthor)
+
+	author.Use(middlewares.ValidateToken)
+
+	author.POST("/authors", authorRoutes.controller.CreateAuthor)
+	author.PUT("/authors/:id", authorRoutes.controller.UpdateAuthor)
+	author.DELETE("/authors/:id", authorRoutes.controller.DeleteAuthor)
 }

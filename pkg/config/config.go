@@ -5,16 +5,18 @@ import (
 	"log"
 )
 
-// mapping the config vars with struct
+// Config to map the config vars.
 type Config struct {
-	DBUser string `mapstructure:"DBUSER"`
-	DBPass string `mapstructure:"DBPASS"`
-	DBIp   string `mapstructure:"DBIP"`
-	DBName string `mapstructure:"DBNAME"`
-	Port   string `mapstructure:"PORT"`
+	DBUser           string `mapstructure:"DBUSER"`
+	DBPass           string `mapstructure:"DBPASS"`
+	DBIp             string `mapstructure:"DBIP"`
+	DBName           string `mapstructure:"DBNAME"`
+	Port             string `mapstructure:"PORT"`
+	JwtSecret        string `mapstructure:"JWT_SECRET"`
+	JwtExpireMinutes int    `mapstructure:"JWT_EXPIRE_MINUTES"`
 }
 
-// initializing config vars
+// InitConfig reads the app.env file and maps the config vars.
 func InitConfig() *Config {
 	viper.AddConfigPath(".")
 	viper.SetConfigName("app")
@@ -26,6 +28,7 @@ func InitConfig() *Config {
 		log.Fatal("Error reading env file", err)
 	}
 	var config *Config
+
 	//converts the read config vars into mapped struct type
 	if err := viper.Unmarshal(&config); err != nil {
 		log.Fatal("Error reading env file", err)
@@ -33,10 +36,10 @@ func InitConfig() *Config {
 	return config
 }
 
-// global var to access from any package
+// LocalConfig holds the config vars.
 var LocalConfig *Config
 
-// calling initconfig() to initialize the config vars
+// SetConfig sets the config vars.
 func SetConfig() {
 	LocalConfig = InitConfig()
 }

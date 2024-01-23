@@ -7,11 +7,13 @@ import (
 	"errors"
 )
 
+// AuthorService defines the methods of the domain.IAuthorService interface.
 type authorService struct {
 	authorRepo domain.IAuthorRepo
 	bookRepo   domain.IBookRepo
 }
 
+// AuthorServiceInstance returns a new instance of the AuthorService struct.
 func AuthorServiceInstance(authorRepo domain.IAuthorRepo, bookRepo domain.IBookRepo) domain.IAuthorService {
 	return &authorService{
 		authorRepo: authorRepo,
@@ -19,70 +21,108 @@ func AuthorServiceInstance(authorRepo domain.IAuthorRepo, bookRepo domain.IBookR
 	}
 }
 
-func (service *authorService) GetAllAuthors() ([]types.AuthorRequest, error) {
-	var allAuthors []types.AuthorRequest
-	author := service.authorRepo.GetAllAuthors()
-	if len(author) == 0 {
-		return nil, errors.New("No author found")
+// GetFilteredAuthors returns a list of authors filtered by the request.
+func (service *authorService) GetFilteredAuthors(request map[string]string) ([]types.ReadAuthorResponse, error) {
+	// get filtered authors
+	authorDetails, err := service.authorRepo.GetFilteredAuthors(request)
+	if err != nil {
+		return nil, err
 	}
-	for _, val := range author {
-		allAuthors = append(allAuthors, types.AuthorRequest{
+	if len(authorDetails) == 0 {
+		return nil, errors.New("no author found")
+	}
+
+	// convert to response type
+	var responses []types.ReadAuthorResponse
+	for _, val := range authorDetails {
+		responses = append(responses, types.ReadAuthorResponse{
 			ID:          val.ID,
 			AuthorName:  val.AuthorName,
 			Address:     val.Address,
 			PhoneNumber: val.PhoneNumber,
 		})
 	}
-	return allAuthors, nil
+
+	return responses, nil
 }
 
-func (service *authorService) GetAuthor(authorID uint) (types.AuthorRequest, error) {
+// GetAuthor returns an author by the authorID.
+func (service *authorService) GetAuthor(authorID uint) (*types.ReadAuthorResponse, error) {
+	// get author from db
 	authorDetail, err := service.authorRepo.GetAuthor(authorID)
-	author := types.AuthorRequest{
+	if err != nil {
+		return nil, err
+	}
+
+	// convert to response type
+	response := &types.ReadAuthorResponse{
 		ID:          authorDetail.ID,
 		AuthorName:  authorDetail.AuthorName,
 		Address:     authorDetail.Address,
 		PhoneNumber: authorDetail.PhoneNumber,
 	}
-	if err != nil {
-		return author, errors.New("No author found")
-	}
-	return author, nil
+
+	return response, nil
 }
 
-func (service *authorService) CreateAuthor(author *models.AuthorDetail) error {
-	if err := service.authorRepo.CreateAuthor(author); err != nil {
-		return errors.New("Author was not created")
+// CreateAuthor handles the create author request.
+func (service *authorService) CreateAuthor(request *types.CreateAuthorRequest) error {
+	// prepare author detail
+	authorDetail := &models.AuthorDetail{
+		AuthorName:  request.AuthorName,
+		Address:     request.Address,
+		PhoneNumber: request.PhoneNumber,
 	}
+
+	// create author in db
+	if err := service.authorRepo.CreateAuthor(authorDetail); err != nil {
+		return err
+	}
+
 	return nil
 }
 
-func (service *authorService) UpdateAuthor(updatedAuthor *models.AuthorDetail) error {
-	existingAuthor, err := service.GetAuthor(uint(updatedAuthor.ID))
+// UpdateAuthor handles the update author request.
+func (service *authorService) UpdateAuthor(authorID uint, request *types.UpdateAuthorRequest) error {
+	// check if author exists
+	existingAuthor, err := service.authorRepo.GetAuthor(authorID)
 	if err != nil {
-		return errors.New("No author found")
+		return errors.New("no author found")
 	}
-	if updatedAuthor.AuthorName == "" {
-		updatedAuthor.AuthorName = existingAuthor.AuthorName
+
+	// update existing author details
+	if request.AuthorName != "" {
+		existingAuthor.AuthorName = request.AuthorName
 	}
-	if updatedAuthor.Address == "" {
-		updatedAuthor.Address = existingAuthor.Address
+	if request.Address != "" {
+		existingAuthor.Address = request.Address
 	}
-	if updatedAuthor.PhoneNumber == "" {
-		updatedAuthor.PhoneNumber = existingAuthor.PhoneNumber
+	if request.PhoneNumber != "" {
+		existingAuthor.PhoneNumber = request.PhoneNumber
 	}
-	if err := service.authorRepo.UpdateAuthor(updatedAuthor); err != nil {
-		return errors.New("Author was not updated")
+
+	// update author in db
+	if err := service.authorRepo.UpdateAuthor(existingAuthor); err != nil {
+		return errors.New("author was not updated")
 	}
+
 	return nil
 }
 
+// DeleteAuthor handles the delete author request.
 func (service *authorService) DeleteAuthor(authorID uint) error {
+	// check if author exists
+	if _, err := service.authorRepo.GetAuthor(authorID); err != nil {
+		return errors.New("no author found with given ID")
+	}
+
+	// delete author and books of author
 	if err := service.authorRepo.DeleteAuthor(authorID); err != nil {
-		return errors.New("Author was not deleted")
+		return err
 	}
 	if err := service.bookRepo.DeleteBooksByAuthorID(authorID); err != nil {
-		return errors.New("Author was not deleted")
+		return err
 	}
+
 	return nil
 }
