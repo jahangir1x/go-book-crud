@@ -1,8 +1,26 @@
 # Bookstore API with GO
+
+## 🛠️ Run Instructions
+Clone the repository:
+- $ `git clone https://github.com/jahangir1x/book-crud.git`
+
+CD into the project directory:
+- $ `cd book-crud`
+
+Create `app.env` file with `app.env.example` as a template:
+- $ `cp app.env.example app.env`
+
+**Modify `app.env` contents as needed...**
+
+Run the application:
+- $ `go run main.go`
+
 ***
-## Explore with Postman: [Postman collection link](https://github.com/jahangir1x/book-crud/blob/main/postman_collection/book-crud.postman_collection.json)
+## 🧭 Explore with Postman: [Postman collection link](https://github.com/jahangir1x/book-crud/blob/main/postman_collection/book-crud.postman_collection.json)
+
 ***
-## Endpoints Documentation
+
+## 📚 Endpoints Documentation
 *JSON standard does not allow comments. The comments are used here for demonstration purposes.*
 
 ### 🔵 Signup User
