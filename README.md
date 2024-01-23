@@ -10,16 +10,16 @@
 - **Request Body:**
   ```json
   {
-    "authorName": "name", // required
-    "address": "address",
-    "phoneNumber": "phone number"
+    "authorName":  "John Doe",       // required
+    "address":     "123 Main St.",   // optional
+    "phoneNumber": "+12 34 5678 910" // optional
   }
   ```
 - **Example:**
     - `POST /bookstore/authors`
       ```json
       {
-        "authorName": "ExampleAuthor",
+        "authorName": "Example Author",
         "address": "Example Address",
         "phoneNumber": "1234567890"
       }
@@ -27,7 +27,7 @@
     - `POST /bookstore/authors`
       ```json
       {
-        "authorName": "ExampleAuthor"
+        "authorName": "Example Author"
       }
       ```
 ***
