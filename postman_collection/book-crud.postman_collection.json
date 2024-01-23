@@ -2,21 +2,294 @@
 	"info": {
 		"_postman_id": "3b297416-524c-4879-b3eb-d00c8404412b",
 		"name": "book-crud",
+		"description": "Basic book CRUD operation API tests",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "31062623"
 	},
 	"item": [
+		{
+			"name": "authentication",
+			"item": [
+				{
+					"name": "signup user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"adminuser\",\n    \"password\": \"supersecret\",\n    \"name\": \"John Doe\",\n    \"email\": \"someone@something.com\",\n    \"address\": \"123 main street\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/signup",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"signup"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "legal request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"adminuser\",\n    \"password\": \"supersecret\",\n    \"name\": \"John Doe\",\n    \"email\": \"someone@something.com\",\n    \"address\": \"123 main street\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/signup",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"signup"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "legal request without address",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"adminuser2\",\n    \"password\": \"supersecret\",\n    \"name\": \"John Doe\",\n    \"email\": \"someone@something.com\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/signup",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"signup"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "username exists",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"adminuser\",\n    \"password\": \"supersecret\",\n    \"name\": \"John Doe\",\n    \"email\": \"someone@something.com\",\n    \"address\": \"123 main street\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/signup",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"signup"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "short password",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"adminuser\",\n    \"password\": \"p\",\n    \"name\": \"John Doe\",\n    \"email\": \"someone@something.com\",\n    \"address\": \"abcdef ksdkflssd\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/signup",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"signup"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "login user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"adminuser\",\n    \"password\": \"supersecret\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/login",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "legal request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"adminuser\",\n    \"password\": \"supersecret\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/login",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"login"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "wrong password",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"adminuser\",\n    \"password\": \"wrongpass\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/login",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"login"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			],
+			"description": "Authorization based on JWT",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
 		{
 			"name": "authors query",
 			"item": [
 				{
 					"name": "create author",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"authorName\": \"J.K. Rowling\",\n  \"address\": \"London, UK\",\n  \"phoneNumber\": \"+44 20 7946 0958\"\n}\n",
+							"raw": "{\n    \"authorName\": \"George R.R. Martin\",\n    \"address\": \"123 King's Landing, Westeros\",\n    \"phoneNumber\": \"+44 20 7946 1234\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -35,7 +308,101 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "legal request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"authorName\": \"Jane Austen\",\n    \"address\": \"789 Chawton, Hampshire\",\n    \"phoneNumber\": \"+22 20 7946 6789\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/bookstore/authors",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"bookstore",
+										"authors"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "legal request without phone num",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n   \"authorName\": \"Christopher Michael Thompson\",\n   \"address\": \"789 Elm Street\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/bookstore/authors",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"bookstore",
+										"authors"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "no author name",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n   \"address\": \"789 Elm Street\",\n   \"phoneNumber\": \"+99 20 7946 0958\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/bookstore/authors",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"bookstore",
+										"authors"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
 				},
 				{
 					"name": "get authors",
@@ -59,10 +426,20 @@
 				{
 					"name": "get author by id",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/bookstore/authors/1",
+							"raw": "localhost:8080/bookstore/authors/2",
 							"host": [
 								"localhost"
 							],
@@ -70,7 +447,7 @@
 							"path": [
 								"bookstore",
 								"authors",
-								"1"
+								"2"
 							]
 						}
 					},
@@ -79,6 +456,16 @@
 				{
 					"name": "update author by id",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [],
 						"body": {
@@ -91,7 +478,7 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/bookstore/authors/1",
+							"raw": "localhost:8080/bookstore/authors/3",
 							"host": [
 								"localhost"
 							],
@@ -99,15 +486,90 @@
 							"path": [
 								"bookstore",
 								"authors",
-								"1"
+								"3"
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "single field update",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"address\" : \"456 Oak Avenue\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/bookstore/authors/2",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"bookstore",
+										"authors",
+										"2"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "multiple field update",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"address\" : \"987 Pine Lane\",\n    \"phoneNumber\": \"+77 20 946 0958\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/bookstore/authors/3",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"bookstore",
+										"authors",
+										"3"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
 				},
 				{
 					"name": "delete author by id",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [],
 						"url": {
@@ -133,11 +595,21 @@
 				{
 					"name": "create book",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"bookName\": \"Harry Potter and the Philosopher's Stone\",\n  \"authorID\": 1,\n  \"publication\": \"Scholastic\"\n}",
+							"raw": "{\n   \"bookName\": \"The Great Gatsby\",\n   \"authorID\": 1,\n   \"publication\": \"Scribner\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -156,7 +628,132 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "legal request with valid author id",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"bookName\": \"Harry Potter and the Philosopher's Stone\",\n  \"authorID\": 1,\n  \"publication\": \"Scholastic\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/bookstore/books",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"bookstore",
+										"books"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "legal request with valid author id and without publication",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"bookName\": \"To Kill a Mockingbird\",\n  \"authorID\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/bookstore/books",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"bookstore",
+										"books"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "invalid author id",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"bookName\": \"Harry Potter and the Philosopher's Stone\",\n  \"authorID\": 100,\n  \"publication\": \"Scholastic\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/bookstore/books",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"bookstore",
+										"books"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "without book name",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"authorID\": 2,\n  \"publication\": \"Scholastic\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/bookstore/books",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"bookstore",
+										"books"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
 				},
 				{
 					"name": "get books",
@@ -200,7 +797,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/bookstore/books?bookID=8&authorID=5",
+							"raw": "localhost:8080/bookstore/books?authorID=2",
 							"host": [
 								"localhost"
 							],
@@ -212,29 +809,79 @@
 							"query": [
 								{
 									"key": "bookID",
-									"value": "8"
-								},
-								{
-									"key": "authorID",
-									"value": "5"
+									"value": "8",
+									"disabled": true
 								},
 								{
 									"key": "publication",
 									"value": "Scholastic",
 									"disabled": true
+								},
+								{
+									"key": "authorID",
+									"value": "2"
 								}
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "get books by an author",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/bookstore/books?authorID=2",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"bookstore",
+										"books"
+									],
+									"query": [
+										{
+											"key": "bookID",
+											"value": "8",
+											"disabled": true
+										},
+										{
+											"key": "publication",
+											"value": "Scholastic",
+											"disabled": true
+										},
+										{
+											"key": "authorID",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
 				},
 				{
 					"name": "get book by id",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/bookstore/books/8",
+							"raw": "localhost:8080/bookstore/books/2",
 							"host": [
 								"localhost"
 							],
@@ -242,20 +889,30 @@
 							"path": [
 								"bookstore",
 								"books",
-								"8"
+								"2"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "update book id",
+					"name": "update book by id",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"publication\": \"TESTING\"\n}",
+							"raw": "{\n    \"publication\": \"Cool pub\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -275,11 +932,86 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "single field update",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"publication\": \"HarperCollins\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/bookstore/books/1",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"bookstore",
+										"books",
+										"1"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "multiple field update",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"publication\": \"George Orwell Publications\",\n    \"bookName\": \"The Catcher in the Rye\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/bookstore/books/1",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"bookstore",
+										"books",
+										"1"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
 				},
 				{
 					"name": "delete book by id",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [],
 						"url": {
