@@ -21,7 +21,9 @@ Run the application:
 ***
 
 ## 📚 Endpoints Documentation
-*JSON standard does not allow comments. The comments are used here for demonstration purposes.*
+- JSON standard does not allow comments. The comments are used here for demonstration purposes.
+- Ensure to replace `:id` in the paths with the actual ID of the book when making requests.
+- Please note that **existing author ID must be provided** when creating and updating a book information.
 
 ### 🔵 Signup User
 - **Path:** `/signup`
@@ -259,7 +261,3 @@ Run the application:
       }
       ```
 ***
-
-### Notes
-
-- Ensure to replace `:id` in the paths with the actual ID of the book when making requests.
