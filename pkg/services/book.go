@@ -69,7 +69,7 @@ func (service *bookService) GetBook(bookID uint) (*types.ReadBookResponse, error
 func (service *bookService) CreateBook(request *types.CreateBookRequest) error {
 	// check if author exists
 	if _, err := service.authorRepo.GetAuthor(request.AuthorID); err != nil {
-		return errors.New("no author found with given authorID")
+		return errors.New("no author found with given author ID. Please create associated Author or give existing author ID")
 	}
 
 	// prepare book detail
@@ -92,7 +92,7 @@ func (service *bookService) UpdateBook(bookID uint, request *types.UpdateBookReq
 	// check if book exists
 	existingBook, err := service.bookRepo.GetBook(bookID)
 	if err != nil {
-		return errors.New("no book found")
+		return errors.New("no book found with given ID")
 	}
 
 	// update existing book details
@@ -100,6 +100,9 @@ func (service *bookService) UpdateBook(bookID uint, request *types.UpdateBookReq
 		existingBook.BookName = request.BookName
 	}
 	if request.AuthorID != 0 {
+		if _, err := service.authorRepo.GetAuthor(request.AuthorID); err != nil {
+			return errors.New("no author found with given author ID. Please create associated Author or give existing author ID")
+		}
 		existingBook.AuthorID = request.AuthorID
 	}
 	if request.Publication != "" {

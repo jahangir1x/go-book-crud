@@ -29,7 +29,7 @@ func (service *authorService) GetFilteredAuthors(request map[string]string) ([]t
 		return nil, err
 	}
 	if len(authorDetails) == 0 {
-		return nil, errors.New("no author found")
+		return nil, errors.New("no author found with given query")
 	}
 
 	// convert to response type
@@ -87,7 +87,7 @@ func (service *authorService) UpdateAuthor(authorID uint, request *types.UpdateA
 	// check if author exists
 	existingAuthor, err := service.authorRepo.GetAuthor(authorID)
 	if err != nil {
-		return errors.New("no author found")
+		return errors.New("no author found with given author ID")
 	}
 
 	// update existing author details
@@ -113,7 +113,7 @@ func (service *authorService) UpdateAuthor(authorID uint, request *types.UpdateA
 func (service *authorService) DeleteAuthor(authorID uint) error {
 	// check if author exists
 	if _, err := service.authorRepo.GetAuthor(authorID); err != nil {
-		return errors.New("no author found with given ID")
+		return errors.New("no author found with given author ID")
 	}
 
 	// delete author and books of author
