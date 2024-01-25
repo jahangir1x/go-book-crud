@@ -48,7 +48,7 @@ func (service *authService) LoginUser(loginRequest *types.LoginRequest) (*types.
 // SignupUser creates a new user with the given user details.
 func (service *authService) SignupUser(registerRequest *types.SignupRequest) error {
 	// get hashed password
-	passwordHash, err := utils.GetHashedPassword(registerRequest.Password)
+	passwordHash, err := utils.GetPasswordHash(registerRequest.Password)
 	if err != nil {
 		return err
 	}

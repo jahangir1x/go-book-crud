@@ -7,13 +7,13 @@ import (
 	"time"
 )
 
-// GetHashedPassword returns the hashed password.
-func GetHashedPassword(password string) (string, error) {
-	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+// GetPasswordHash returns the hashed password.
+func GetPasswordHash(password string) (string, error) {
+	hashBytes, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
 		return "", err
 	}
-	return string(hashedPassword), nil
+	return string(hashBytes), nil
 }
 
 // CheckPassword checks if the password is correct.
