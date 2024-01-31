@@ -26,6 +26,7 @@
 - **Modify `app.env` contents as needed...**
 - Run the Docker container:
   - $ `docker compose --env-file app.env up -d`
+- Wait for the process to complete...
 
 ***
 ## 🧭 Explore with Postman: [Postman collection link](https://github.com/jahangir1x/book-crud/blob/main/postman_collection/book-crud.postman_collection.json)
