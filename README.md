@@ -1,19 +1,31 @@
 # Bookstore API with GO
 
-## 🛠️ Run Instructions
-Clone the repository:
-- $ `git clone https://github.com/jahangir1x/book-crud.git`
+## 🛠️ Run/Build Instructions
+### 💻 Run locally
+- Clone the repository:
+  - $ `git clone https://github.com/jahangir1x/book-crud.git`
 
-CD into the project directory:
-- $ `cd book-crud`
+- CD into the project directory:
+  - $ `cd book-crud`
 
-Create `app.env` file with `app.env.example` as a template:
-- $ `cp app.env.example app.env`
+- Create `app.env` file with `app.env.example` as a template:
+  - $ `cp app.env.example app.env`
 
-**Modify `app.env` contents as needed...**
+- **Modify `app.env` contents as needed...**
 
-Run the application:
-- $ `go run main.go`
+- Run the application:
+  - $ `go run main.go`
+
+### 🐳 Run with Docker
+- Clone the repository:
+  - $ `git clone https://github.com/jahangir1x/book-crud.git`
+- CD into the project directory:
+  - $ `cd book-crud`
+- Create `app.env` file with `app.env.example` as a template:
+  - $ `cp app.env.example app.env`
+- **Modify `app.env` contents as needed...**
+- Run the Docker container:
+  - $ `docker compose --env-file app.env up -d`
 
 ***
 ## 🧭 Explore with Postman: [Postman collection link](https://github.com/jahangir1x/book-crud/blob/main/postman_collection/book-crud.postman_collection.json)
