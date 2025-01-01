@@ -1,0 +1,9 @@
+{
+    "cSpell.words": [
+        "Dialector",
+        "gorm"
+    ],
+    "code-runner.executorMap": {
+        "go": "echo $fileName; go run . serve",
+    }
+}
